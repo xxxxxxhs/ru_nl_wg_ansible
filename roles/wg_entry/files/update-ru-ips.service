@@ -1,0 +1,6 @@
+[Unit]
+Description=Update ru ips list in ipset
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/update-ru-ips.sh

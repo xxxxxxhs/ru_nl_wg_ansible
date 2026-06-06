@@ -1,0 +1,6 @@
+---
+- include_tasks: install.yml
+- include_tasks: ip_forward.yml
+- include_tasks: iptables.yml
+- include_tasks: get_ru_ips.yml
+- include_tasks: wireguard.yml

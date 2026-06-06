@@ -1,0 +1,27 @@
+- name: copy sh script curls ru ips
+  ansible.builtin.copy:
+    src: update-ru-ips.sh
+    dest: /usr/local/bin/update-ru-ips.sh
+    mode: '0755'
+
+- name: copy service curls ru ips
+  ansible.builtin.copy:
+    src: update-ru-ips.service
+    dest: /etc/systemd/system/update-ru-ips.service
+
+- name: copy timer curls ru ips
+  ansible.builtin.copy:
+    src: update-ru-ips.timer
+    dest: /etc/systemd/system/update-ru-ips.timer
+
+- name: Enable and start timer
+  ansible.builtin.systemd:
+    name: update-ru-ips.timer
+    daemon_reload: true
+    enabled: true
+    state: started
+
+- name: Run update script now
+  ansible.builtin.systemd:
+    name: update-ru-ips.service
+    state: started

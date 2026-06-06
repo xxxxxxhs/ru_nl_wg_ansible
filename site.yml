@@ -1,0 +1,10 @@
+---
+- name: Configure wg-exit node
+  hosts: wg-exit
+  roles:
+    - wg_exit
+
+- name: Configure wg-entry node
+  hosts: wg-entry
+  roles:
+    - wg_entry

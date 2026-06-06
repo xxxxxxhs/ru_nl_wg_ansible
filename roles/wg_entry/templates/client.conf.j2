@@ -1,0 +1,19 @@
+[Interface]
+PrivateKey = {{ users[item.name].private_key }}
+Address = {{ item.ip }}/24
+DNS = 1.1.1.1
+Jc = {{ awg_jc }}
+Jmin = {{ awg_jmin }}
+Jmax = {{ awg_jmax }}
+S1 = {{ awg_s1 }}
+S2 = {{ awg_s2 }}
+H1 = {{ awg_h1 }}
+H2 = {{ awg_h2 }}
+H3 = {{ awg_h3 }}
+H4 = {{ awg_h4 }}
+
+[Peer]
+PublicKey = {{ ru_public_key }}
+Endpoint = {{ ru_host_ip }}:{{ wg_entry_port }}
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 25

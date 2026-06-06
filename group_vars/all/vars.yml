@@ -1,0 +1,42 @@
+---
+# Публичные ключи нод (wg)
+ru_public_key: "" 
+nl_public_key: ""
+ru_transit_public_key: ""
+
+# IP-адреса нод в интернете
+ru_host_ip: "" # 192.168.0.1
+nl_host_ip: "" # 192.168.0.1
+
+# WireGuard туннель: клиент ↔ RU нода (wg0 на entry)
+wg_client_subnet: "10.0.0.0/24"
+wg_entry_client_ip: "10.0.0.1/24"   # IP RU ноды внутри туннеля с клиентами
+
+# WireGuard туннель: RU нода ↔ NL нода (wg1 на entry, wg0 на exit)
+wg_transit_subnet: "10.0.1.0/30"
+wg_entry_transit_ip: "10.0.1.1/30"  # IP RU ноды внутри транзитного туннеля
+wg_exit_transit_ip: "10.0.1.2/30"   # IP NL ноды внутри транзитного туннеля
+
+# Порты WireGuard
+wg_entry_port: 3389
+wg_exit_port: 49541
+
+# awg properties
+awg_jc: 4
+awg_jmin: 40
+awg_jmax: 70
+awg_s1: 50
+awg_s2: 100
+awg_h1: 1500000001
+awg_h2: 1500000002
+awg_h3: 1500000003
+awg_h4: 1500000004
+
+# Клиенты VPN
+wg_clients:
+  - name: user1
+    ip: "10.0.0.2"
+  - name: user2
+    ip: "10.0.0.3"
+  - name: user3
+    ip: "10.0.0.4"

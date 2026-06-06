@@ -1,0 +1,14 @@
+# transit config
+[Interface]
+Address = {{ wg_entry_transit_ip }}
+PrivateKey = {{ ru_transit_private_key }}
+Table = off
+PostUp = ip route replace default dev wg1 table 200; ip rule add from {{ wg_client_subnet }} table 200 priority 200; iptables -t nat -A POSTROUTING -o wg1 -j MASQUERADE
+PostDown = iptables -t nat -D POSTROUTING -o wg1 -j MASQUERADE; ip rule del from {{ wg_client_subnet }} table 200 priority 200; ip route flush table 200
+
+# EXIT NODE
+[Peer]
+PublicKey = {{ nl_public_key }}
+Endpoint = {{ nl_host_ip }}:{{ wg_exit_port }}
+AllowedIPs = 0.0.0.0/0
+PersistentKeepalive = 25

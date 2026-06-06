@@ -1,0 +1,35 @@
+- name: Allow loopback
+  ansible.builtin.iptables:
+    chain: INPUT
+    in_interface: lo
+    jump: ACCEPT
+
+- name: Allow ssh
+  ansible.builtin.iptables:
+    action: append
+    chain: INPUT
+    protocol: tcp
+    destination_port: "22"
+    comment: "allow 22/tcp"
+    jump: ACCEPT
+
+- name: Allow wg
+  ansible.builtin.iptables:
+    action: append
+    chain: INPUT
+    protocol: udp
+    destination_port: "{{ wg_entry_port }}"
+    comment: "allow wg port"
+    jump: ACCEPT
+
+- name: Allow related and established connections
+  ansible.builtin.iptables:
+    chain: INPUT
+    ctstate: ['ESTABLISHED', 'RELATED']
+    comment: "allow related, established"
+    jump: ACCEPT
+
+- name: Drop everything else
+  ansible.builtin.iptables:
+    chain: INPUT
+    policy: DROP

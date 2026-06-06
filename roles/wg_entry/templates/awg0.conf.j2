@@ -1,0 +1,25 @@
+# entry node (AmneziaWG — обфусцированное плечо клиент <-> entry)
+[Interface]
+Address = {{ wg_entry_client_ip }}
+PrivateKey = {{ ru_private_key }}
+ListenPort = {{ wg_entry_port }}
+Jc = {{ awg_jc }}
+Jmin = {{ awg_jmin }}
+Jmax = {{ awg_jmax }}
+S1 = {{ awg_s1 }}
+S2 = {{ awg_s2 }}
+H1 = {{ awg_h1 }}
+H2 = {{ awg_h2 }}
+H3 = {{ awg_h3 }}
+H4 = {{ awg_h4 }}
+PostUp = ipset create -exist ru_ips hash:net family inet hashsize 4096 maxelem 65536; iptables -t mangle -A PREROUTING -m set --match-set ru_ips dst -j MARK --set-mark 1; ip rule add fwmark 1 table 100 priority 100; ip route replace default via {{ ansible_default_ipv4.gateway }} table 100; iptables -A FORWARD -i awg0 -j ACCEPT; iptables -A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+PostDown = iptables -t mangle -D PREROUTING -m set --match-set ru_ips dst -j MARK --set-mark 1; ip rule del fwmark 1 table 100 priority 100; ip route flush table 100; iptables -D FORWARD -i awg0 -j ACCEPT; iptables -D FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+
+{% for user in wg_clients %}
+
+# {{ user.name }}
+[Peer]
+PublicKey = {{ users[user.name].public_key }}
+AllowedIPs = {{ user.ip }}/32
+
+{% endfor %}

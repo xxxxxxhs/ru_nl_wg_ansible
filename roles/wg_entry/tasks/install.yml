@@ -1,0 +1,24 @@
+- name: install wireguard & ipset
+  ansible.builtin.apt:
+    name:
+      - wireguard
+      - ipset
+      - jq
+      - curl
+      - software-properties-common
+    state: present
+    update_cache: true
+
+- name: add AmneziaWG PPA
+  ansible.builtin.command: add-apt-repository -y ppa:amnezia/ppa
+  args:
+    creates: "/etc/apt/sources.list.d/amnezia-ubuntu-ppa-{{ ansible_distribution_release }}.sources"
+
+- name: install AmneziaWG and kernel headers
+  ansible.builtin.apt:
+    name:
+      - "linux-headers-{{ ansible_kernel }}"
+      - amneziawg
+      - amneziawg-tools
+    state: present
+    update_cache: true

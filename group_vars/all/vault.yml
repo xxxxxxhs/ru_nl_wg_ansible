@@ -1,0 +1,14 @@
+nl_private_key: ""
+ru_private_key: ""
+ru_transit_private_key: ""
+
+users:
+  user1:
+    private_key: ""
+    public_key: ""
+  user2:
+    private_key: ""
+    public_key: ""
+  user3:
+    private_key: ""
+    public_key: ""
