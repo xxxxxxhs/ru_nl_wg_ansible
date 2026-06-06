@@ -9,10 +9,16 @@
     state: present
     update_cache: true
 
+- name: Get upstream Ubuntu codename
+  ansible.builtin.shell: grep -oP '(?<=UBUNTU_CODENAME=).+' /etc/os-release || echo "{{ ansible_distribution_release }}"
+  register: ubuntu_codename
+  changed_when: false
+
 - name: add AmneziaWG PPA
-  ansible.builtin.command: add-apt-repository -y ppa:amnezia/ppa
-  args:
-    creates: "/etc/apt/sources.list.d/amnezia-ubuntu-ppa-{{ ansible_distribution_release }}.sources"
+  ansible.builtin.apt_repository:
+    repo: "deb https://ppa.launchpadcontent.net/amnezia/ppa/ubuntu {{ ubuntu_codename.stdout }} main"
+    filename: amnezia-ubuntu-ppa
+    state: present
 
 - name: install AmneziaWG and kernel headers
   ansible.builtin.apt:
