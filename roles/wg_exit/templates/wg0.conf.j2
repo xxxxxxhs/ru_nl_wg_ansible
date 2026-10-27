@@ -2,8 +2,8 @@
 PrivateKey = {{ nl_private_key }}
 Address = {{ wg_exit_transit_ip }}
 ListenPort = {{ wg_exit_port }}
-PostUp = iptables -A FORWARD -i wg0 -o eth0 -j ACCEPT; iptables -A FORWARD -i eth0 -o wg0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-PostDown = iptables -D FORWARD -i wg0 -o eth0 -j ACCEPT; iptables -D FORWARD -i eth0 -o wg0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+PostUp = iptables -A FORWARD -i wg0 -o {{ ansible_default_ipv4.interface }} -j ACCEPT; iptables -A FORWARD -i {{ ansible_default_ipv4.interface }} -o wg0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -o {{ ansible_default_ipv4.interface }} -j ACCEPT; iptables -D FORWARD -i {{ ansible_default_ipv4.interface }} -o wg0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ ansible_default_ipv4.interface }} -j MASQUERADE
 
 [Peer]
 PublicKey = {{ ru_transit_public_key }}
