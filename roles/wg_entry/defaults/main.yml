@@ -1,3 +1,9 @@
 #SPDX-License-Identifier: MIT-0
 ---
 # defaults file for roles/wg_entry
+
+# Версия пакетов из ppa:amnezia/ppa. "latest" — самая свежая из PPA.
+# Маска со * нужна, т.к. в PPA к версии дописан таймстемп сборки и релиз Ubuntu (~ubuntu24.04.1 и т.п.),
+# а коммит (+ee0f0a9) одинаковый для всех релизов.
+amneziawg_version: "1.0.20210914-0~*+ee0f0a9~*"
+amneziawg_tools_version: "{{ amneziawg_version }}"
